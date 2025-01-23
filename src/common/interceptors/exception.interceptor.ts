@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { MESSAGE } from '../../utils/constants.util';
 
 @Catch()
 export class CustomExceptionFilter implements ExceptionFilter {
@@ -18,7 +19,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    let message: string | object = 'Failed';
+    let message: string | object = MESSAGE.FAILED;
 
     if (exception instanceof HttpException) {
       const exceptionResponse = exception.getResponse();
@@ -32,7 +33,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
         const responseObj = exceptionResponse as {
           message?: string | string[];
         };
-        message = responseObj.message || 'Failed';
+        message = responseObj.message || MESSAGE.FAILED;
       }
     } else if (exception instanceof TypeError) {
       message = exception.message;

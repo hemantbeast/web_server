@@ -1,4 +1,6 @@
 export const MESSAGE = {
+  SUCCESS: 'Success',
+  FAILED: 'Failed',
   ERROR_MSG: 'Something went wrong. Please try again.',
   USER_NOT_FOUND_ERROR: 'User not found',
   USER_UPDATED_SUCCESS: 'User profile updated successfully',
@@ -14,4 +16,5 @@ export const MESSAGE = {
   USER_NAME_ERROR: 'User name is required',
   USERNAME_LENGTH_NOT_VALID: 'Username length should be between 6 and 30.',
   USER_ADDED_SUCCESS: 'User profile created successfully',
+  USER_ID_NOT_VALID: 'User id is not valid',
 };

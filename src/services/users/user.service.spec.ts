@@ -5,6 +5,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { mockedUser, mockedUsers } from './mock/user.mock';
+import { MESSAGE } from '../../utils/constants.util';
 
 const userModelMock = {
   create: jest.fn(),
@@ -38,21 +40,13 @@ describe('UserService', () => {
 
   describe('create', () => {
     it('should insert a user', async () => {
-      const mockedUser = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@yopmail.com',
-        password: 'P@ssw0rd',
-        username: 'johndoe',
-      };
-
       const mockedData = {
         data: true,
-        message: 'Success',
+        message: MESSAGE.USER_ADDED_SUCCESS,
         success: true,
       };
 
-      model.create.mockResolvedValueOnce(mockedUser as any);
+      model.create.mockResolvedValueOnce(mockedData as any);
 
       const createUserDto: CreateUserDto = {
         firstName: 'John',
@@ -70,32 +64,14 @@ describe('UserService', () => {
 
   describe('findAll', () => {
     it('should return all user', async () => {
-      const mockedUsers: User[] = [
-        {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john.doe@yopmail.com',
-          password: 'P@ssw0rd',
-          username: 'johndoe',
-          phoneNumber: '12345678',
-        },
-        {
-          firstName: 'Test',
-          lastName: 'Name',
-          email: 'test.name@yopmail.com',
-          password: 'P@ssw0rd',
-          username: 'testName',
-          phoneNumber: '12345678',
-        },
-      ];
-
       const mockedData = {
         data: mockedUsers,
-        message: 'Success',
+        message: MESSAGE.SUCCESS,
         success: true,
       };
 
       model.find.mockReturnValueOnce({
+        select: jest.fn().mockReturnThis(),
         exec: jest.fn().mockResolvedValueOnce(mockedUsers),
       } as any);
 
@@ -108,26 +84,19 @@ describe('UserService', () => {
 
   describe('findOne', () => {
     it('should return a single user', async () => {
-      const mockedUser = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@yopmail.com',
-        password: 'P@ssw0rd',
-        username: 'johndoe',
-        phoneNumber: '12345678',
-      };
+      const id = new Types.ObjectId().toString();
 
       const mockedData = {
-        data: mockedUser,
-        message: 'Success',
+        data: mockedUser(id),
+        message: MESSAGE.SUCCESS,
         success: true,
       };
 
       model.findOne.mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(mockedUser),
+        select: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockResolvedValueOnce(mockedUser(id)),
       } as any);
 
-      const id = new Types.ObjectId().toString();
       const result = await service.getUserById(id);
 
       expect(result).toEqual(mockedData);
@@ -137,37 +106,27 @@ describe('UserService', () => {
 
   describe('update', () => {
     it('should update a single user', async () => {
-      const id = new Types.ObjectId();
-
-      const mockedUser = {
-        _id: id,
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@yopmail.com',
-        password: 'P@ssw0rd',
-        username: 'johndoe',
-        phoneNumber: '12345678',
-      };
+      const id = new Types.ObjectId().toString();
 
       const mockedData = {
         data: true,
-        message: 'User profile updated successfully',
+        message: MESSAGE.USER_UPDATED_SUCCESS,
         success: true,
       };
 
       model.findByIdAndUpdate.mockReturnValueOnce({
-        exec: jest.fn().mockResolvedValueOnce(mockedUser),
+        exec: jest.fn().mockResolvedValueOnce(mockedUser(id)),
       } as any);
 
       const updateUserDto: UpdateUserDto = {
         firstName: 'John',
         lastName: 'Doe',
       };
-      const result = await service.updateUser(id.toString(), updateUserDto);
+      const result = await service.updateUser(id, updateUserDto);
 
       expect(result).toEqual(mockedData);
       expect(model.findByIdAndUpdate).toHaveBeenCalledWith(
-        { _id: id.toString() },
+        { _id: id },
         updateUserDto,
         { new: true },
       );
