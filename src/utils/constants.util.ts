@@ -17,4 +17,5 @@ export const MESSAGE = {
   USERNAME_LENGTH_NOT_VALID: 'Username length should be between 6 and 30.',
   USER_ADDED_SUCCESS: 'User profile created successfully',
   USER_ID_NOT_VALID: 'User id is not valid',
+  USER_ALREADY_EXIST: 'User already exists',
 };

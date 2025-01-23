@@ -6,11 +6,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ResponseUtil } from '../../utils/response.util';
 import { MESSAGE } from '../../utils/constants.util';
+import { CryptoUtil } from '../../utils/crypto.util';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly cryptoUtils: CryptoUtil,
   ) {}
 
   async getUsers(): Promise<JSON> {
@@ -23,7 +25,28 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<JSON> {
-    await this.userModel.create(createUserDto);
+    const user: User | null = await this.userModel.findOne({
+      $or: [
+        { email: createUserDto.email },
+        { username: createUserDto.username },
+      ],
+    });
+
+    if (user != null) {
+      throw new BadRequestException(MESSAGE.USER_ALREADY_EXIST);
+    }
+
+    const password = this.cryptoUtils.encryptPassword(createUserDto.password);
+
+    const newUser = {
+      firstName: createUserDto.firstName,
+      lastName: createUserDto.lastName,
+      email: createUserDto.email.toLowerCase(),
+      password: password,
+      username: createUserDto.username,
+    };
+
+    await this.userModel.create(newUser);
     return ResponseUtil.successResponse<boolean>(
       true,
       MESSAGE.USER_ADDED_SUCCESS,
