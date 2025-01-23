@@ -14,13 +14,16 @@ export class UserService {
   ) {}
 
   async getUsers(): Promise<JSON> {
-    const data: User[] = await this.userModel.find().exec();
+    const data: User[] = await this.userModel.find().select(['-__v']).exec();
     return ResponseUtil.successResponse<User[]>(data);
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<JSON> {
     await this.userModel.create(createUserDto);
-    return ResponseUtil.successResponse<boolean>(true);
+    return ResponseUtil.successResponse<boolean>(
+      true,
+      MESSAGE.USER_ADDED_SUCCESS,
+    );
   }
 
   async getUserById(id: string): Promise<JSON> {

@@ -34,6 +34,8 @@ export class CustomExceptionFilter implements ExceptionFilter {
         };
         message = responseObj.message || 'Failed';
       }
+    } else if (exception instanceof TypeError) {
+      message = exception.message;
     }
 
     response.status(status).send({
