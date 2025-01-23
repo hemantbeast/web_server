@@ -140,7 +140,11 @@ describe('UserService', () => {
       const result = await service.updateUser(id, updateUserDto);
 
       expect(result).toEqual(mockedUser);
-      expect(model.findByIdAndUpdate).toHaveBeenCalledWith({ _id: id }, updateUserDto, { new: true });
+      expect(model.findByIdAndUpdate).toHaveBeenCalledWith(
+        { _id: id },
+        updateUserDto,
+        { new: true },
+      );
     });
   });
 });
