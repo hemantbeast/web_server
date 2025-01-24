@@ -37,6 +37,9 @@ async function bootstrap() {
   // Custom exception
   app.useGlobalFilters(new CustomExceptionFilter());
 
+  // Set a global prefix for all routes
+  app.setGlobalPrefix('api');
+
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('User Profile')
