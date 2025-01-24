@@ -7,9 +7,10 @@ import {
 } from '../../utils/swagger.util';
 import { loginResponse } from './dto/login.response.dto';
 import { MESSAGE } from '../../utils/constants.util';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginRequestDto } from './dto/login.request.dto';
 
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

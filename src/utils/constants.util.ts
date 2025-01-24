@@ -20,4 +20,5 @@ export const MESSAGE = {
   USER_ALREADY_EXIST: 'User already exists',
   LOGIN_SUCCESS: 'Log in successfully',
   LOGIN_ERROR: 'Invalid email or password',
+  ACCESS_DENIED: 'You are not authorized to access this resource.',
 };

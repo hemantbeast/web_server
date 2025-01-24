@@ -1,9 +1,17 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { MESSAGE } from '../../utils/constants.util';
-import { ApiResponse } from '@nestjs/swagger';
+import {ApiBearerAuth, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {
   badRequestSwagger,
   internalServerSwagger,
@@ -11,8 +19,12 @@ import {
 } from '../../utils/swagger.util';
 import { mockedUser, mockedUsers } from './mock/user.mock';
 import { Types } from 'mongoose';
+import { AuthGuard } from '@nestjs/passport';
 
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
+@UseGuards(AuthGuard())
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

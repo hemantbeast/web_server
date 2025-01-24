@@ -45,6 +45,7 @@ async function bootstrap() {
     .setTitle('User Profile')
     .setDescription('Handling user profile API')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
