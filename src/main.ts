@@ -8,6 +8,7 @@ import { CustomExceptionFilter } from './common/interceptors/exception.intercept
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { MESSAGE } from './utils/constants.util';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from '@fastify/helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -40,6 +41,12 @@ async function bootstrap() {
   // Set a global prefix for all routes
   app.setGlobalPrefix('api');
 
+  app.enableCors({
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  });
+
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('User Profile')
@@ -52,6 +59,7 @@ async function bootstrap() {
   SwaggerModule.setup('api-docs', app, documentFactory);
   console.log('Swagger running on https://localhost:3000/api-docs');
 
+  await app.register(helmet);
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();
