@@ -18,4 +18,6 @@ export const MESSAGE = {
   USER_ADDED_SUCCESS: 'User profile created successfully',
   USER_ID_NOT_VALID: 'User id is not valid',
   USER_ALREADY_EXIST: 'User already exists',
+  LOGIN_SUCCESS: 'Log in successfully',
+  LOGIN_ERROR: 'Invalid email or password',
 };
