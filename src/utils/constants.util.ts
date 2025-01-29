@@ -24,4 +24,7 @@ export const MESSAGE = {
   ALREADY_REGISTER:
     'There was a problem creating your account. Check that your email address or username is spelled correctly and try again',
   EMAIL_SENT: 'A mail send to your email address to verify the OTP',
+  EMAIL_ALREADY_EXIST: 'Email already exists',
+  USERNAME_ALREADY_EXIST: 'Username already exists',
+  USERNAME_AVAILABLE: 'Username available',
 };

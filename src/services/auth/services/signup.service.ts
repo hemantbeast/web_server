@@ -9,6 +9,8 @@ import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { MESSAGE } from '../../../utils/constants.util';
 import { ResponseUtil } from '../../../utils/response.util';
 import { MailService } from '../../mail/mail.service';
+import { CheckEmailDto } from '../dto/check.email.dto';
+import { CheckUsernameDto } from '../dto/check.username.dto';
 
 @Injectable()
 export class SignupService {
@@ -20,6 +22,7 @@ export class SignupService {
     private readonly mailService: MailService,
   ) {}
 
+  // Signup user
   async signup(createUserDto: CreateUserDto): Promise<JSON> {
     const user: UserDocument | null = await this.userModel.findOne({
       $or: [
@@ -75,6 +78,32 @@ export class SignupService {
       };
 
       await this.tempUserModel.create(newUser);
+    }
+  }
+
+  // Check email
+  async checkEmail(checkEmailDto: CheckEmailDto): Promise<JSON> {
+    const user: UserDocument | null = await this.userModel.findOne({
+      email: checkEmailDto.email.toLowerCase(),
+    });
+
+    if (user) {
+      throw new BadRequestException(MESSAGE.EMAIL_ALREADY_EXIST);
+    } else {
+      return ResponseUtil.successResponse(true);
+    }
+  }
+
+  // Check username
+  async checkUsername(checkUsernameDto: CheckUsernameDto): Promise<JSON> {
+    const user: UserDocument | null = await this.userModel.findOne({
+      username: checkUsernameDto.username,
+    });
+
+    if (user) {
+      throw new BadRequestException(MESSAGE.USERNAME_ALREADY_EXIST);
+    } else {
+      return ResponseUtil.successResponse(true, MESSAGE.USERNAME_AVAILABLE);
     }
   }
 }
