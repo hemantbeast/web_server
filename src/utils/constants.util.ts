@@ -21,4 +21,7 @@ export const MESSAGE = {
   LOGIN_SUCCESS: 'Log in successfully',
   LOGIN_ERROR: 'Invalid email or password',
   ACCESS_DENIED: 'You are not authorized to access this resource.',
+  ALREADY_REGISTER:
+    'There was a problem creating your account. Check that your email address or username is spelled correctly and try again',
+  EMAIL_SENT: 'A mail send to your email address to verify the OTP',
 };

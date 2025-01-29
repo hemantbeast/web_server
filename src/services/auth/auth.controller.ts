@@ -1,5 +1,4 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import {
   badRequestSwagger,
   internalServerSwagger,
@@ -9,11 +8,17 @@ import { loginResponse } from './dto/login.response.dto';
 import { MESSAGE } from '../../utils/constants.util';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginRequestDto } from './dto/login.request.dto';
+import { LoginService } from './services/login.service';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { SignupService } from './services/signup.service';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly signupService: SignupService,
+  ) {}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -21,6 +26,15 @@ export class AuthController {
   @ApiResponse(badRequestSwagger(MESSAGE.LOGIN_ERROR))
   @ApiResponse(internalServerSwagger())
   async login(@Body() login: LoginRequestDto): Promise<JSON> {
-    return await this.authService.login(login);
+    return await this.loginService.login(login);
+  }
+
+  @Post('signUp')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse(successSwagger(true, MESSAGE.EMAIL_SENT))
+  @ApiResponse(badRequestSwagger(MESSAGE.ALREADY_REGISTER))
+  @ApiResponse(internalServerSwagger())
+  async signUp(@Body() createUserDto: CreateUserDto): Promise<JSON> {
+    return await this.signupService.signup(createUserDto);
   }
 }

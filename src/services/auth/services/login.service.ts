@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { LoginRequestDto } from './dto/login.request.dto';
-import { LoginResponseDto } from './dto/login.response.dto';
-import { ResponseUtil } from '../../utils/response.util';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../users/schemas/user.schema';
+import { User, UserDocument } from '../../users/schemas/user.schema';
 import { Model } from 'mongoose';
-import { MESSAGE } from '../../utils/constants.util';
 import { JwtService } from '@nestjs/jwt';
+import { CryptoUtil } from '../../../utils/crypto.util';
+import { LoginRequestDto } from '../dto/login.request.dto';
+import { MESSAGE } from '../../../utils/constants.util';
+import { LoginResponseDto } from '../dto/login.response.dto';
 import { instanceToPlain } from 'class-transformer';
-import { CryptoUtil } from '../../utils/crypto.util';
+import { ResponseUtil } from '../../../utils/response.util';
 
 @Injectable()
-export class AuthService {
+export class LoginService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     private readonly jwtService: JwtService,
