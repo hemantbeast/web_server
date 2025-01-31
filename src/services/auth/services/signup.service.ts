@@ -164,4 +164,28 @@ export class SignupService {
       MESSAGE.ACCOUNT_VERIFIED,
     );
   }
+
+  async resendOtp(request: CheckEmailDto): Promise<JSON> {
+    const tempUser: TempUser | null = await this.tempUserModel.findOne({
+      email: request.email.toLowerCase(),
+    });
+
+    if (!tempUser) {
+      throw new BadRequestException(MESSAGE.USER_NOT_FOUND_ERROR);
+    }
+
+    // Generate new otp to verify
+    tempUser.otp = this.appUtil.generateOtp();
+    await tempUser.save();
+
+    // Send verification mail
+    await this.mailService.prepareAndSendMail(
+      request.email.toLowerCase(),
+      'Web Server: Email verification',
+      'otp_verification.html',
+      { OTP: tempUser.otp.toString() },
+    );
+
+    return ResponseUtil.successResponse<boolean>(true, MESSAGE.EMAIL_SENT);
+  }
 }

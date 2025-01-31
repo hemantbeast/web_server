@@ -69,4 +69,13 @@ export class AuthController {
   async verifyAccount(@Body() request: VerifyAccountDto): Promise<JSON> {
     return await this.signupService.verifyAccount(request);
   }
+
+  @Post('resendOtp')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse(successSwagger(true, MESSAGE.EMAIL_SENT))
+  @ApiResponse(badRequestSwagger(MESSAGE.USER_NOT_FOUND_ERROR))
+  @ApiResponse(internalServerSwagger())
+  async resendOtp(@Body() request: CheckEmailDto): Promise<JSON> {
+    return await this.signupService.resendOtp(request);
+  }
 }
