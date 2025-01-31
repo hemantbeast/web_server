@@ -10,6 +10,10 @@ import { MESSAGE } from '../../../utils/constants.util';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
+  constructor(partial?: Partial<CreateUserDto>) {
+    Object.assign(this, partial);
+  }
+
   // Swagger
   @ApiProperty({
     example: 'John',

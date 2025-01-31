@@ -27,4 +27,7 @@ export const MESSAGE = {
   EMAIL_ALREADY_EXIST: 'Email already exists',
   USERNAME_ALREADY_EXIST: 'Username already exists',
   USERNAME_AVAILABLE: 'Username available',
+  OTP_EMPTY: 'OTP should not be empty',
+  OTP_INVALID: 'The entered OTP is invalid',
+  ACCOUNT_VERIFIED: 'Account verified successfully',
 };

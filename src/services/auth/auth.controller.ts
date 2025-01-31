@@ -13,6 +13,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { SignupService } from './services/signup.service';
 import { CheckEmailDto } from './dto/check.email.dto';
 import { CheckUsernameDto } from './dto/check.username.dto';
+import { VerifyAccountDto } from './dto/verify.account.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -54,7 +55,18 @@ export class AuthController {
   @ApiResponse(successSwagger(true, MESSAGE.USERNAME_AVAILABLE))
   @ApiResponse(badRequestSwagger(MESSAGE.USERNAME_ALREADY_EXIST))
   @ApiResponse(internalServerSwagger())
-  async checkUsername(@Body() checkUsernameDto: CheckUsernameDto): Promise<JSON> {
+  async checkUsername(
+    @Body() checkUsernameDto: CheckUsernameDto,
+  ): Promise<JSON> {
     return await this.signupService.checkUsername(checkUsernameDto);
+  }
+
+  @Post('verifyAccount')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse(successSwagger(loginResponse, MESSAGE.ACCOUNT_VERIFIED))
+  @ApiResponse(badRequestSwagger(MESSAGE.OTP_INVALID))
+  @ApiResponse(internalServerSwagger())
+  async verifyAccount(@Body() request: VerifyAccountDto): Promise<JSON> {
+    return await this.signupService.verifyAccount(request);
   }
 }
