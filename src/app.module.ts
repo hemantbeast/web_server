@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModel } from './services/users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './services/auth/auth.module';
+import { ForgotPasswordModule } from './services/forgot_password/forgot.password.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './services/auth/auth.module';
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/web_db'),
     AuthModule,
+    ForgotPasswordModule,
     UserModel,
   ],
 })

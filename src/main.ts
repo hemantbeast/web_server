@@ -57,7 +57,7 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, documentFactory);
-  console.log('Swagger running on https://localhost:3000/api-docs');
+  console.log('Swagger running on localhost:3000/api-docs');
 
   await app.register(helmet);
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');

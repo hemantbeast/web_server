@@ -30,4 +30,6 @@ export const MESSAGE = {
   OTP_EMPTY: 'OTP should not be empty',
   OTP_INVALID: 'The entered OTP is invalid',
   ACCOUNT_VERIFIED: 'Account verified successfully',
+  FORGOT_PASSWORD_INSTRUCTION:
+    'An email has been sent. Please follow instructions on it.',
 };

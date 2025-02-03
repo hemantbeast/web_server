@@ -22,6 +22,12 @@ export class User {
 
   @Prop({ required: true, type: String, unique: true })
   username: string;
+
+  @Prop({ type: Number })
+  passwordOtp: number;
+
+  @Prop({ type: String })
+  passwordExpires: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
