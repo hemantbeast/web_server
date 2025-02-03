@@ -69,7 +69,7 @@ export class CreateUserDto {
       minUppercase: 1,
     },
     {
-      message: MESSAGE.PASSWORD_ERROR,
+      message: MESSAGE.PASSWORD_NOT_VALID,
     },
   )
   @IsNotEmpty({ message: MESSAGE.PASSWORD_ERROR })

@@ -41,14 +41,17 @@ export class UpdateUserDto {
       minUppercase: 1,
     },
     {
-      message: MESSAGE.PASSWORD_ERROR,
+      message: MESSAGE.PASSWORD_NOT_VALID,
     },
   )
   @IsNotEmpty({ message: MESSAGE.PASSWORD_ERROR })
   readonly password?: string;
 
   // Swagger
-  @ApiPropertyOptional({ example: '9876543210', description: 'Phone number of user' })
+  @ApiPropertyOptional({
+    example: '9876543210',
+    description: 'Phone number of user',
+  })
   // Validations
   @IsOptional()
   readonly phoneNumber?: string;

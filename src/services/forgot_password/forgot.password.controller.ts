@@ -8,6 +8,8 @@ import {
 import { MESSAGE } from '../../utils/constants.util';
 import { CheckEmailDto } from '../auth/dto/check.email.dto';
 import { ForgotPasswordService } from './forgot.password.service';
+import { VerifyAccountDto } from '../auth/dto/verify.account.dto';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
 @Controller('forgot_password')
 export class ForgotPasswordController {
@@ -20,5 +22,23 @@ export class ForgotPasswordController {
   @ApiResponse(internalServerSwagger())
   async forgotPassword(@Body() request: CheckEmailDto): Promise<JSON> {
     return await this.forgotPasswordService.forgotPassword(request);
+  }
+
+  @Post('verifyOTP')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse(successSwagger(true))
+  @ApiResponse(badRequestSwagger(MESSAGE.USER_OR_OTP_INVALID))
+  @ApiResponse(internalServerSwagger())
+  async verifyOtp(@Body() request: VerifyAccountDto): Promise<JSON> {
+    return await this.forgotPasswordService.verifyOTP(request);
+  }
+
+  @Post('resetPassword')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse(successSwagger(true))
+  @ApiResponse(badRequestSwagger(MESSAGE.USER_OR_OTP_INVALID))
+  @ApiResponse(internalServerSwagger())
+  async resetPassword(@Body() request: ResetPasswordDto): Promise<JSON> {
+    return await this.forgotPasswordService.resetPassword(request);
   }
 }

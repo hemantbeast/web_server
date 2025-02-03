@@ -24,10 +24,13 @@ export class User {
   username: string;
 
   @Prop({ type: Number })
-  passwordOtp: number;
+  passwordOtp?: number;
 
-  @Prop({ type: String })
-  passwordExpires: string;
+  @Prop({ type: Date })
+  passwordExpires?: Date;
+
+  @Prop({ type: Boolean, default: false })
+  isOtpVerified: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

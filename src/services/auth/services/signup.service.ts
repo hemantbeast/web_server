@@ -15,6 +15,7 @@ import { VerifyAccountDto } from '../dto/verify.account.dto';
 import { LoginResponseDto } from '../dto/login.response.dto';
 import { instanceToPlain } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
+import { badRequestSwagger } from '../../../utils/swagger.util';
 
 @Injectable()
 export class SignupService {
@@ -150,12 +151,16 @@ export class SignupService {
       email: request.email.toLowerCase(),
     });
 
+    if (!userData) {
+      throw new BadRequestException(MESSAGE.ERROR_MSG);
+    }
+
     const data = new LoginResponseDto({
-      id: userData?._id.toString(),
-      firstName: userData?.firstName,
-      lastName: userData?.lastName,
-      email: userData?.email,
-      username: userData?.username,
+      id: userData._id.toString(),
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      username: userData.username,
     });
     data.token = await this.jwtService.signAsync(instanceToPlain(data));
 

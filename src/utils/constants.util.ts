@@ -32,4 +32,7 @@ export const MESSAGE = {
   ACCOUNT_VERIFIED: 'Account verified successfully',
   FORGOT_PASSWORD_INSTRUCTION:
     'An email has been sent. Please follow instructions on it.',
+  USER_OR_OTP_INVALID: 'User not found or OTP expired',
+  CONFIRM_PASSWORD_ERROR: 'Confirm password is required',
+  PASSWORD_NOT_MATCH: 'New password and confirm password do not match',
 };
