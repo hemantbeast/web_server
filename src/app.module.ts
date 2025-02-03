@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModel } from './services/users/user.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './services/auth/auth.module';
 import { ForgotPasswordModule } from './services/forgot_password/forgot.password.module';
 
@@ -11,7 +11,13 @@ import { ForgotPasswordModule } from './services/forgot_password/forgot.password
       isGlobal: true,
       envFilePath: 'local.env',
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/web_db'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_DB'),
+      }),
+    }),
     AuthModule,
     ForgotPasswordModule,
     UserModel,
